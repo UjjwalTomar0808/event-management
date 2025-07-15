@@ -1,6 +1,6 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-exports.eventSchema = Joi.object({
+export const eventSchema = Joi.object({
   title: Joi.string().required(),
   datetime: Joi.date().iso().greater('now').required(),
   location: Joi.string().required(),

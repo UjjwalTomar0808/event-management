@@ -1,16 +1,17 @@
-const express = require('express');
+import express from 'express';
+import dotenv from 'dotenv';
+dotenv.config();
+
+import prisma from './prisma/client.js';
+import eventRoutes from './routes/events.js';
+
 const app = express();
-require('dotenv').config();
-
-const { sequelize } = require('./models');
-const eventRoutes = require('./routes/events');
-
 app.use(express.json());
 app.use('/events', eventRoutes);
 
 const PORT = process.env.PORT || 3000;
 
-sequelize.sync({ alter: true }).then(() => {
+prisma.$connect().then(() => {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });

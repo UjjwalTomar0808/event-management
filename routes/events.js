@@ -1,14 +1,22 @@
-const express = require('express');
+import express from 'express';
+import validate from '../middleware/validate.js';
+import { eventSchema } from '../validators/eventValidator.js';
+import {
+  createEvent,
+  getEventDetails,
+  registerUser,
+  cancelRegistration,
+  listUpcomingEvents,
+  eventStats
+} from '../controllers/eventController.js';
+
 const router = express.Router();
-const validate = require('../middleware/validate');
-const { eventSchema } = require('../validators/eventValidator');
-const controller = require('../controllers/eventController');
 
-router.post('/', validate(eventSchema), controller.createEvent);
-router.get('/:id', controller.getEventDetails);
-router.post('/:id/register', controller.registerUser);
-router.delete('/:id/register', controller.cancelRegistration);
-router.get('/upcoming/list', controller.listUpcomingEvents);
-router.get('/:id/stats', controller.eventStats);
+router.post('/', validate(eventSchema), createEvent);
+router.get('/:id', getEventDetails);
+router.post('/:id/register', registerUser);
+router.delete('/:id/register', cancelRegistration);
+router.get('/upcoming/list', listUpcomingEvents);
+router.get('/:id/stats', eventStats);
 
-module.exports = router;
+export default router;
